@@ -87,14 +87,17 @@ package Japi::Japi {
   sub say_synopsis {
     my ($self, $ec) = @_;
     my $opts = $self->opts;
-    my %tstr = ( '=s' => 'STRING', '' => 'BOOL' );
+    my %tstr = ( '=s' => 'STRING', '' => '' );
     $ec //= 0;
 
     say "Synopsis: $0";
     for (sort keys %$opts) {
       my $tstr = $tstr{$opts->{$_}{type}} // '';
-      my $value = $opts->{$_}{value} // '';
-      say "\t[--$_ <$tstr:$value>]";
+      if ($tstr ne '') {
+        my $value = $opts->{$_}{value} // '';
+        $tstr = " <$tstr:$value>";
+      }
+      say "\t[--$_$tstr]";
     }
     say 'You may also read the manual page';
     exit $ec;

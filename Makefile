@@ -1,11 +1,12 @@
 NAME=japi
-all: version docs build
+all: version documentation build
 
 # THIS IS NEEDED BY THE DEBIAN TOOLS
 
 # Builds the project. Since this is only a fake project, it just copies a script.
 build:
 	cp -p ./src/$(NAME) bin/$(NAME)
+	sed -i "s/VERSION_DEVEL/$$(cat .version)/" bin/$(NAME)
 	echo "echo This is version $$(cat .version)" >> bin/$(NAME)
 	
 # 'install' installes a fake-root, which will be used to build the Debian package
@@ -14,7 +15,6 @@ install:
 	test ! -d $(DESTDIR)/usr/bin && mkdir -p $(DESTDIR)/usr/bin || exit 0
 	test ! -d $(DESTDIR)/usr/share/$(NAME) && mkdir -p $(DESTDIR)/usr/share/$(NAME) || exit 0
 	cp ./bin/* $(DESTDIR)/usr/bin
-	#cp -r ./lib $(DESTDIR)/usr/share/$(NAME)/lib
 
 deinstall:
 	test ! -z "$(DESTDIR)" && test -f $(DESTDIR)/usr/bin/$(NAME) && rm $(DESTDIR)/usr/bin/$(NAME) || exit 0
@@ -29,15 +29,16 @@ clean:
 version:
 	cut -d' ' -f2 debian/changelog | head -n 1 | sed 's/(//;s/)//' > .version
 
-# Builds the docs into a manpage
-docs:
+# Builds the documentation into a manpage
+documentation:
 	pod2man --release="$(NAME) $$(cat .version)" \
 		--center="User Commands" ./docs/$(NAME).pod > ./docs/$(NAME).1
-	pod2text ./docs/$(NAME).pod > ./docs/$(NAME).txt
+	# Also write README.txt for Github.
+	pod2text ./docs/$(NAME).pod | tee ./docs/$(NAME).txt > README.txt
 
 # Build a debian package (don't sign it, modify the arguments if you want to sign it)
 deb: all
-	dpkg-buildpackage -uc -us
+	dpkg-buildpackage
 
 dch: 
 	dch -i

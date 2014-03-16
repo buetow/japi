@@ -123,146 +123,62 @@
 .rm #[ #] #H #V #F C
 .\" ========================================================================
 .\"
-.IX Title "FOO 1"
-.TH FOO 1 "2014-02-03" "japi 0.0.0.0" "User Commands"
+.IX Title "JAPI 1"
+.TH JAPI 1 "2014-03-16" "japi 0.0.0" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-japi \- A template project
-.SH "WTF?"
-.IX Header "WTF?"
-You may use this project in order to build your own Debian package for your own project. This has been tested with Debian GNU/Linux Squeeze and Debian GNU/Linux Wheezy.
+japi \- A Humble Jira API Tool
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+Synopsis: japi
+  [\-\-debug]
+  [\-\-help]
+  [\-\-version]
+  [\-\-passfile]
+  [\-\-jira_apiversion <\s-1STRING\s0>]
+  [\-\-jira_query <\s-1STRING\s0>]
+  [\-\-jira_uribase <\s-1STRING\s0>]
+  [\-\-jira_user <\s-1STRING\s0>]
+.SS "Options:"
+.IX Subsection "Options:"
+.IP "\-\-debug" 4
+.IX Item "--debug"
+Prints out extra debugging infos during execution.
+.IP "\-\-help" 4
+.IX Item "--help"
+Prints out the help.
+.IP "\-\-version" 4
+.IX Item "--version"
+Prints out the version.
+.IP "\-\-passfile <\s-1STRING\s0>" 4
+.IX Item "--passfile <STRING>"
+Specifies the path to an optional file which includes the Jira \s-1API\s0 password but Base64 encoded. The default value is \f(CW\*(C`~/.japipass\*(C'\fR.
+.Sp
+If the file is not present, Japi will prompt for the password.
+.IP "\-\-jira_apiversion <\s-1STRING\s0>" 4
+.IX Item "--jira_apiversion <STRING>"
+Specifies the Jira \s-1API\s0 version to use. The default value is \f(CW\*(C`rest/api/2\*(C'\fR.
+.IP "\-\-jira_query <\s-1STRING\s0>" 4
+.IX Item "--jira_query <STRING>"
+Specifies the Jira search string (e.q. a \s-1JQL\s0 string). The default value is \f(CW\*(C`search?jql=project=MT and status not in (Resolved,Closed)\*(Aq\*(C'\fR.
+.IP "\-\-jira_uribase <\s-1STRING\s0>" 4
+.IX Item "--jira_uribase <STRING>"
+Specifies the Jira \s-1URI\s0 base. The default value is \f(CW\*(C`https://your\-jira.example.com\*(C'\fR. This has to be changed.
+.IP "\-\-jira_user <\s-1STRING\s0>" 4
+.IX Item "--jira_user <STRING>"
+Specifies the Jira user. The default value is your current Linux/UNIX user.
+.SH "CONFIG"
+.IX Header "CONFIG"
+Almost all options have to be passed the Japi tool via command line. One exception is the password file containing your Jira password Base64 encoded.
 .PP
-Feel free to modify any aspects. This project is just an empty example japi.
-.PP
-Follow these steps:
-.SS "Install required packages"
-.IX Subsection "Install required packages"
-Run the following:
-.PP
-.Vb 1
-\&    sudo aptitude install lintian devscripts dpkg\-dev make perl
-.Ve
-.PP
-Todo: Ensure this are the correct packages. In order to test that I would have to setup a blank Debian system.
-.SS "Compile the project"
-.IX Subsection "Compile the project"
-Go to the to level directory and run
-.PP
-.Vb 1
-\&    make
-.Ve
-.PP
-To test run
-.PP
-.Vb 1
-\&    ./bin/japi
-.Ve
-.PP
-It should print out the version number of the project.
-.SS "Create a Debian package"
-.IX Subsection "Create a Debian package"
-Go to the to level directory and run
-.PP
-.Vb 1
-\&    make deb
-.Ve
-.PP
-It will create the files like:
-.PP
-.Vb 4
-\&    ../japi_0.0.0.0_all.deb
-\&    ../japi_0.0.0.0.dsc
-\&    ../japi_0.0.0.0_amd64.changes
-\&    ../japi_0.0.0.0.tar.gz
-.Ve
-.PP
-It should create a debian package in ../. Check and install it, e.g:
-.PP
-.Vb 2
-\&    lintian \-\-pedantic ../japi_0.0.0.0_all.deb 
-\&    sudo dpkg \-i ../japi_0.0.0.0_all.deb
-.Ve
-.PP
-Run
+It can be created like this:
 .PP
 .Vb 1
-\&    dpkg \-L japi
+\&  bash \-c \*(Aqread \-s PASSWORD; tr \-d "\en" <<< "$PASSWORD" | base64\*(Aq | tee ~/.japipass
 .Ve
-.PP
-to see whats in there. You can now run
-.PP
-.Vb 1
-\&    /usr/bin/japi
-.Ve
-.PP
-or for example
-.PP
-.Vb 1
-\&    man japi
-.Ve
-.SS "Read the Makefile"
-.IX Subsection "Read the Makefile"
-Read the Makefile in order to understand what's going on.
-.SH "Customize"
-.IX Header "Customize"
-Now, since you understood everything feel free to customize everything the way you want it. E.g.:
-.PP
-.Vb 1
-\&    Don\*(Aqt use POD for documentation but LaTeX
-\&
-\&    Compile a C program
-\&
-\&    Include a ./lib dir, add it to the \*(Aqinstall\*(Aq Makefile rule
-\&
-\&    etc etc.
-.Ve
-.PP
-You should also consider the following:
-.SS "Manual page"
-.IX Subsection "Manual page"
-This template is using \s-1POD\s0 for creating manual pages. Edit ./docs/japi.pod and run
-.PP
-.Vb 1
-\&    make documentation
-.Ve
-.PP
-in order to build ./docs/japi.1. The page will be included in the resulting debian package automatically. You can review the page with
-.PP
-.Vb 1
-\&    man ./docs/japi.1
-.Ve
-.SS "Renaming japi into your project name"
-.IX Subsection "Renaming japi into your project name"
-Rename all files which have *japi* included into your own new package name. You can do that with:
-.PP
-.Vb 3
-\&    PROJECTNAME=yourproject
-\&    find . \-name \e*japi\e* | 
-\&    while read japi; do git mv $japi ${japi/japi/$PROJECTNAME}; done
-.Ve
-.PP
-Search all content and rename *japi* into your own new package name. You can do that with:
-.PP
-.Vb 2
-\&    grep \-R japi . | grep \-v .git | 
-\&    cut \-d: \-f1 | uniq | xargs sed \-i "s/japi/$PROJECTNAME/g"
-.Ve
-.SS "Updating ./debian"
-.IX Subsection "Updating ./debian"
-Edit the following files accordingly to your new project (e.g. with vim):
-.PP
-.Vb 3
-\&    ./debian/control
-\&    ./debian/copyright
-\&    ./debian/README
-.Ve
-.SS "Update changelog"
-.IX Subsection "Update changelog"
-Go to the to level directory and run
-.PP
-.Vb 1
-\&    dch \-i
-.Ve
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Paul C. Buetow \- <paul@buetow.org>

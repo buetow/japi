@@ -1,116 +1,69 @@
 =head1 NAME
 
-japi - A template project
+japi - A Humble Jira API Tool
 
-=head1 WTF?
+=head1 SYNOPSIS
 
-You may use this project in order to build your own Debian package for your own project. This has been tested with Debian GNU/Linux Squeeze and Debian GNU/Linux Wheezy. 
+Synopsis: japi
+  [--debug]
+  [--help]
+  [--version]
+  [--passfile]
+  [--jira_apiversion <STRING>]
+  [--jira_query <STRING>]
+  [--jira_uribase <STRING>]
+  [--jira_user <STRING>]
 
-Feel free to modify any aspects. This project is just an empty example japi.
+=head2 Options:
 
-Follow these steps:
+=over 
 
-=head2 Install required packages
+=item --debug
 
-Run the following:
+Prints out extra debugging infos during execution. 
 
-    sudo aptitude install lintian devscripts dpkg-dev make perl
+=item --help
 
-Todo: Ensure this are the correct packages. In order to test that I would have to setup a blank Debian system.
+Prints out the help.
 
-=head2 Compile the project
+=item --version
 
-Go to the to level directory and run
+Prints out the version.
 
-    make
+=item --passfile <STRING>
 
-To test run
+Specifies the path to an optional file which includes the Jira API password but Base64 encoded. The default value is C<~/.japipass>.
 
-    ./bin/japi
+If the file is not present, Japi will prompt for the password. 
 
-It should print out the version number of the project.
+=item --jira_apiversion <STRING>
 
-=head2 Create a Debian package
+Specifies the Jira API version to use. The default value is C<rest/api/2>.
 
-Go to the to level directory and run
+=item --jira_query <STRING>
 
-    make deb
+Specifies the Jira search string (e.q. a JQL string). The default value is C<search?jql=project=MT and status not in (Resolved,Closed)'>.
 
-It will create the files like:
+=item --jira_uribase <STRING>
 
-    ../japi_0.0.0.0_all.deb
-    ../japi_0.0.0.0.dsc
-    ../japi_0.0.0.0_amd64.changes
-    ../japi_0.0.0.0.tar.gz
+Specifies the Jira URI base. The default value is C<https://your-jira.example.com>. This has to be changed.
 
-It should create a debian package in ../. Check and install it, e.g:
+=item --jira_user <STRING>
 
-    lintian --pedantic ../japi_0.0.0.0_all.deb 
-    sudo dpkg -i ../japi_0.0.0.0_all.deb 
+Specifies the Jira user. The default value is your current Linux/UNIX user.
 
-Run 
+=back
 
-    dpkg -L japi
+=head1 CONFIG
 
-to see whats in there. You can now run
+Almost all options have to be passed the Japi tool via command line. One exception is the password file containing your Jira password Base64 encoded.
 
-    /usr/bin/japi
+It can be created like this:
 
-or for example
+  bash -c 'read -s PASSWORD; tr -d "\n" <<< "$PASSWORD" | base64' | tee ~/.japipass
 
-    man japi
+=head1 AUTHOR
 
-=head2 Read the Makefile
+Paul C. Buetow - <paul@buetow.org>
 
-Read the Makefile in order to understand what's going on.
-
-=head1 Customize
-
-Now, since you understood everything feel free to customize everything the way you want it. E.g.: 
-
-    Don't use POD for documentation but LaTeX
-
-    Compile a C program
-
-    Include a ./lib dir, add it to the 'install' Makefile rule
-
-    etc etc.
-
-You should also consider the following:
-
-=head2 Manual page
-
-This template is using POD for creating manual pages. Edit ./docs/japi.pod and run 
-
-    make documentation
-
-in order to build ./docs/japi.1. The page will be included in the resulting debian package automatically. You can review the page with
-
-    man ./docs/japi.1
-
-=head2 Renaming japi into your project name 
-
-Rename all files which have *japi* included into your own new package name. You can do that with:
-
-    PROJECTNAME=yourproject
-    find . -name \*japi\* | 
-    while read japi; do git mv $japi ${japi/japi/$PROJECTNAME}; done
-
-Search all content and rename *japi* into your own new package name. You can do that with:
-
-    grep -R japi . | grep -v .git | 
-    cut -d: -f1 | uniq | xargs sed -i "s/japi/$PROJECTNAME/g"  
-
-=head2 Updating ./debian
-
-Edit the following files accordingly to your new project (e.g. with vim):
-
-    ./debian/control
-    ./debian/copyright
-    ./debian/README
-
-=head2 Update changelog
-
-Go to the to level directory and run
-
-    dch -i
+=cut
