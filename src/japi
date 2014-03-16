@@ -1,94 +1,195 @@
 #!/usr/bin/env perl
 
-package Fapi;
-
-use namespace::clean;
-use v5.14;
-use strict;
-use warnings;
-use autodie;
-
-# From Debian Repos
-use Moo;
-
-# From CPAN
-use JIRA::REST;
-
-# Object attributes
-has config => ( is => 'ro' );
-
-sub created_str {
-  my $created = shift;
-
-  # Parse 2014-02-19T11:56:47.000+0100
-  my ($y, $m, $d, $t) = $created =~
-    /^(\d{4})-(\d\d)-(\d\d)T(\d\d:\d\d:\d\d)/;
-
-  return "$d.$m.$y $t";
-}
-
-sub get_open_issues {
-  my $self = shift;
-
-  $self->config->directives();
-}
-
-1;
-
-package main;
+# The japi utility (http://japi.buetow.org)
+# 2014 (c) Paul C. Buetow
 
 use v5.14;
 use strict;
 use warnings;
 use autodie;
 
-use Data::Dumper;
-use ConfigReader::Simple;
+package Japi::Japi {
+  use Moo;
+  use Getopt::Long;
+  use Data::Dumper;
+  use IO::File;
+  use Term::ReadKey;
+  use MIME::Base64 qw( decode_base64 );
 
-my $config_file = './japi.conf';
+  our $NAME = 'Japi';
+  our $VERSION = 'VERSION_DEVEL';
 
-my $config = ConfigReader::Simple->new($config_file,
-  ['uri', 'user', 'pass64',  'query',  'webase']);
+  has opts => ( is => 'rw' );
 
-say Dumper $config;
+  # Get all the program opts
+  sub getopts {
+    my $self = shift;
 
-my $japi = Fapi->new(config => $config);
+    # Prepare the option has for GetOptions, type '' is default type bool
+    my %opts = (
+      # General options
+      version  => { type => '',   value => 0 },
+      #verbose  => { type => '',   value => 0 },
+      debug    => { type => '',   value => 0 },
+      help     => { type => '',   value => 0 },
+      passfile => { type => '=s', value => "$ENV{HOME}/.japipass" },
 
-say Dumper $japi->get_open_issues();
+      # Jira specific options
+      jira_uribase    => { type => '=s', value => 'https://your-jira.example.com' },
+      jira_user       => { type => '=s', value => $ENV{USER} },
+      jira_query      => { type => '=s', value => 'search?jql=project=MT and status not in (Resolved,Closed)' },
+      jira_apiversion => { type => '=s', value => 'rest/api/2' },
+    );
 
-__END__
+    $self->opts(\%opts);
 
-my $jira_uri = 'https://po-jira.1and1.com/rest/api/2';
-my $jira_user = 'pbuetow';
-my $jira_pass = $ENV{JIRA_PASS};
-my $query = "search?jql=project=MT and status not in (Resolved,Closed)";
-my $web_base = 'https://po-jira.1and1.com/browse/';
+    # Get the options. Say the error and the synopsis if any errors.
+    $self->say_synopsis(1) unless
+      GetOptions( map { $_ . $opts{$_}{type} => \$opts{$_}{value} } keys %opts );
 
-say "==> Querying $query";
-my $jira = JIRA::REST->new($jira_uri, $jira_user, $jira_pass);
+    if ( $opts{debug}{value} ) {
+      say 'Opts';
+      say Dumper %opts;
+    }
 
-my $result = $jira->GET($query);
-my $issues = $result->{issues};
+    if ( $opts{help}{value} ) {
+      $self->say_synopsis();
+
+    } elsif ( $opts{version}{value} ) {
+      $self->say_version();
+    }
+
+    $self->get_pass();
+  }
+
+  # Get the Jira API password from base64 encoded file or from stdin.
+  sub get_pass {
+    my $self = shift;
+    my $opts = $self->opts;
+
+    # Try to read the pass from a file
+    my $fh = IO::File->new();
+    if ($fh->open($opts->{passfile}{value})) {
+      chomp(my $pass64 = <$fh>); 
+      $fh->close();
+      $opts->{jira_pass}{value} = decode_base64($pass64);
+
+      # Try to read the pass from stdin
+    } else {
+      say "Type password for user $opts->{jira_user}{value}: ";
+      ReadMode('noecho');
+      chomp($opts->{jira_pass}{value} = <STDIN>);
+      ReadMode(0);
+    }
+  }
+
+  # Dynamically generate the synopsis from the options hash and say it.
+  sub say_synopsis {
+    my ($self, $ec) = @_;
+    my $opts = $self->opts;
+    my %tstr = ( '=s' => 'STRING', '' => 'BOOL' );
+    $ec //= 0;
+
+    say "Synopsis: $0";
+    for (sort keys %$opts) {
+      my $tstr = $tstr{$opts->{$_}{type}} // '';
+      my $value = $opts->{$_}{value} // '';
+      say "\t[--$_ <$tstr:$value>]";
+    }
+    say 'You may also read the manual page';
+    exit $ec;
+  }
+
+  sub say_version {
+    my $self = shift;
+
+    say "This is $NAME version $VERSION";
+    exit 0;
+  }
+
+  # Get an opt or die if a specific opt does not exist.
+  sub opt {
+    my ($self, $opt) = @_;
+
+    die "No such option: $opt\n"
+      unless exists $self->opts->{$opt};
+
+    return $self->opts->{$opt}{value};
+  }
+}
+
+package Japi::Jira {
+  use Moo;
+  use JIRA::REST; # From CPAN (install via CPAN shell e.g.)
+  use Data::Dumper;
+
+  has user       => ( is => 'ro' );
+  has pass       => ( is => 'ro' );
+  has query      => ( is => 'ro' );
+  has apiversion => ( is => 'ro' );
+  has uribase    => ( is => 'ro' );
+  has issues     => ( is => 'rw' );
+
+  sub run_query {
+    my $self = shift;
+    my $uri = join '/', $self->uribase, $self->apiversion;
+
+    say "==> Querying $uri/".$self->query;
+
+    my $jira = JIRA::REST->new($uri, $self->user, $self->pass);
+    my $result = $jira->GET($self->query);
+
+    $self->issues($result->{issues});
+  }
+
+  sub say_issues {
+    my $self = shift;
+    my $webase = join '/', $self->uribase, 'browse/';
+
+    map {
+      my $f = $_->{fields};
+      my $r = $f->{reporter};
+
+      say '-' x 80;
+      say 'Created: ' . $self->created_str($f->{created})." Reporter: $r->{displayName} ($r->{name})";
+      say "Summary: $f->{summary}";
+      say "URL: $webase$_->{key}";
+
+    } sort {
+      $a->{fields}{created} cmp $b->{fields}{created};
+
+    } grep {
+      not defined $_->{fields}{assignee};
+
+    } @{$self->issues};
+
+    say '';
+    say '==> Found ' . scalar(@{$self->issues}) . ' issues';
+  }
+
+  # Return date in human readable format
+  sub created_str {
+    my ($self, $created) = @_;
+
+    # Parse 2014-02-19T11:56:47.000+0100
+    my ($y, $m, $d, $t) = $created =~ /^(\d{4})-(\d\d)-(\d\d)T(\d\d:\d\d:\d\d)/;
+
+    return "$d.$m.$y $t";
+  }
+}
+
+my $japi = Japi::Japi->new();
+$japi->getopts();
+
+my $jira = Japi::Jira->new(
+  user => $japi->opt('jira_user'),
+  pass => $japi->opt('jira_pass'),
+  query => $japi->opt('jira_query'),
+  uribase => $japi->opt('jira_uribase'),
+  apiversion => $japi->opt('jira_apiversion'),
+);
+
+$jira->run_query();
+$jira->say_issues();
 
 
-map {
-  my $f = $_->{fields};
-  my $r = $f->{reporter};
-
-  say '-' x 80;
-  say 'Created: ' . created($f->{created})." Reporter: $r->{displayName} ($r->{name})";
-  say "Summary: $f->{summary}";
-  say "URL: $web_base$_->{key}";
-
-} sort {
-  $a->{fields}{created} cmp $b->{fields}{created};
-
-} grep {
-  not defined $_->{fields}{assignee};
-
-} @$issues;
-
-say '';
-say '==> Found ' . scalar(@$issues) . ' issues';
-
-#say Dumper $issues->[0]; 
