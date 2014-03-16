@@ -124,18 +124,18 @@
 .\" ========================================================================
 .\"
 .IX Title "FOO 1"
-.TH FOO 1 "2014-02-03" "foo 0.0.0.0" "User Commands"
+.TH FOO 1 "2014-02-03" "japi 0.0.0.0" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
 .nh
 .SH "NAME"
-foo \- A template project
+japi \- A template project
 .SH "WTF?"
 .IX Header "WTF?"
 You may use this project in order to build your own Debian package for your own project. This has been tested with Debian GNU/Linux Squeeze and Debian GNU/Linux Wheezy.
 .PP
-Feel free to modify any aspects. This project is just an empty example foo.
+Feel free to modify any aspects. This project is just an empty example japi.
 .PP
 Follow these steps:
 .SS "Install required packages"
@@ -158,7 +158,7 @@ Go to the to level directory and run
 To test run
 .PP
 .Vb 1
-\&    ./bin/foo
+\&    ./bin/japi
 .Ve
 .PP
 It should print out the version number of the project.
@@ -173,35 +173,35 @@ Go to the to level directory and run
 It will create the files like:
 .PP
 .Vb 4
-\&    ../foo_0.0.0.0_all.deb
-\&    ../foo_0.0.0.0.dsc
-\&    ../foo_0.0.0.0_amd64.changes
-\&    ../foo_0.0.0.0.tar.gz
+\&    ../japi_0.0.0.0_all.deb
+\&    ../japi_0.0.0.0.dsc
+\&    ../japi_0.0.0.0_amd64.changes
+\&    ../japi_0.0.0.0.tar.gz
 .Ve
 .PP
 It should create a debian package in ../. Check and install it, e.g:
 .PP
 .Vb 2
-\&    lintian \-\-pedantic ../foo_0.0.0.0_all.deb 
-\&    sudo dpkg \-i ../foo_0.0.0.0_all.deb
+\&    lintian \-\-pedantic ../japi_0.0.0.0_all.deb 
+\&    sudo dpkg \-i ../japi_0.0.0.0_all.deb
 .Ve
 .PP
 Run
 .PP
 .Vb 1
-\&    dpkg \-L foo
+\&    dpkg \-L japi
 .Ve
 .PP
 to see whats in there. You can now run
 .PP
 .Vb 1
-\&    /usr/bin/foo
+\&    /usr/bin/japi
 .Ve
 .PP
 or for example
 .PP
 .Vb 1
-\&    man foo
+\&    man japi
 .Ve
 .SS "Read the Makefile"
 .IX Subsection "Read the Makefile"
@@ -223,32 +223,32 @@ Now, since you understood everything feel free to customize everything the way y
 You should also consider the following:
 .SS "Manual page"
 .IX Subsection "Manual page"
-This template is using \s-1POD\s0 for creating manual pages. Edit ./docs/foo.pod and run
+This template is using \s-1POD\s0 for creating manual pages. Edit ./docs/japi.pod and run
 .PP
 .Vb 1
 \&    make documentation
 .Ve
 .PP
-in order to build ./docs/foo.1. The page will be included in the resulting debian package automatically. You can review the page with
+in order to build ./docs/japi.1. The page will be included in the resulting debian package automatically. You can review the page with
 .PP
 .Vb 1
-\&    man ./docs/foo.1
+\&    man ./docs/japi.1
 .Ve
-.SS "Renaming foo into your project name"
-.IX Subsection "Renaming foo into your project name"
-Rename all files which have *foo* included into your own new package name. You can do that with:
+.SS "Renaming japi into your project name"
+.IX Subsection "Renaming japi into your project name"
+Rename all files which have *japi* included into your own new package name. You can do that with:
 .PP
 .Vb 3
 \&    PROJECTNAME=yourproject
-\&    find . \-name \e*foo\e* | 
-\&    while read foo; do git mv $foo ${foo/foo/$PROJECTNAME}; done
+\&    find . \-name \e*japi\e* | 
+\&    while read japi; do git mv $japi ${japi/japi/$PROJECTNAME}; done
 .Ve
 .PP
-Search all content and rename *foo* into your own new package name. You can do that with:
+Search all content and rename *japi* into your own new package name. You can do that with:
 .PP
 .Vb 2
-\&    grep \-R foo . | grep \-v .git | 
-\&    cut \-d: \-f1 | uniq | xargs sed \-i "s/foo/$PROJECTNAME/g"
+\&    grep \-R japi . | grep \-v .git | 
+\&    cut \-d: \-f1 | uniq | xargs sed \-i "s/japi/$PROJECTNAME/g"
 .Ve
 .SS "Updating ./debian"
 .IX Subsection "Updating ./debian"

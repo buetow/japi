@@ -1,15 +1,15 @@
-Source: foo
+Source: japi
 Section: utils
 Priority: optional
 Maintainer: Paul Buetow <paul@buetow.org>
 Build-Depends: 
 Standards-Version: 3.9.2
-Homepage: https://template.buetow.org
-Vcs-Git: git://git.buetow.org/template
-Vcs-Browser: http://web.buetow.org/git/?p=template.git;a=summary
+Homepage: https://japi.buetow.org
+Vcs-Git: git://git.buetow.org/japi
+Vcs-Browser: http://web.buetow.org/git/?p=japi.git;a=summary
 
-Package: foo
+Package: japi
 Architecture: all
 Depends:
-Description: Small template package
- This is just a template package, which cann print Hello World.
+Description: Command line tool for Jira
+ This is a small tool to list open issues in JIRA via the REST API

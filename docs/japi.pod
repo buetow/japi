@@ -1,12 +1,12 @@
 =head1 NAME
 
-foo - A template project
+japi - A template project
 
 =head1 WTF?
 
 You may use this project in order to build your own Debian package for your own project. This has been tested with Debian GNU/Linux Squeeze and Debian GNU/Linux Wheezy. 
 
-Feel free to modify any aspects. This project is just an empty example foo.
+Feel free to modify any aspects. This project is just an empty example japi.
 
 Follow these steps:
 
@@ -26,7 +26,7 @@ Go to the to level directory and run
 
 To test run
 
-    ./bin/foo
+    ./bin/japi
 
 It should print out the version number of the project.
 
@@ -38,27 +38,27 @@ Go to the to level directory and run
 
 It will create the files like:
 
-    ../foo_0.0.0.0_all.deb
-    ../foo_0.0.0.0.dsc
-    ../foo_0.0.0.0_amd64.changes
-    ../foo_0.0.0.0.tar.gz
+    ../japi_0.0.0.0_all.deb
+    ../japi_0.0.0.0.dsc
+    ../japi_0.0.0.0_amd64.changes
+    ../japi_0.0.0.0.tar.gz
 
 It should create a debian package in ../. Check and install it, e.g:
 
-    lintian --pedantic ../foo_0.0.0.0_all.deb 
-    sudo dpkg -i ../foo_0.0.0.0_all.deb 
+    lintian --pedantic ../japi_0.0.0.0_all.deb 
+    sudo dpkg -i ../japi_0.0.0.0_all.deb 
 
 Run 
 
-    dpkg -L foo
+    dpkg -L japi
 
 to see whats in there. You can now run
 
-    /usr/bin/foo
+    /usr/bin/japi
 
 or for example
 
-    man foo
+    man japi
 
 =head2 Read the Makefile
 
@@ -80,26 +80,26 @@ You should also consider the following:
 
 =head2 Manual page
 
-This template is using POD for creating manual pages. Edit ./docs/foo.pod and run 
+This template is using POD for creating manual pages. Edit ./docs/japi.pod and run 
 
     make documentation
 
-in order to build ./docs/foo.1. The page will be included in the resulting debian package automatically. You can review the page with
+in order to build ./docs/japi.1. The page will be included in the resulting debian package automatically. You can review the page with
 
-    man ./docs/foo.1
+    man ./docs/japi.1
 
-=head2 Renaming foo into your project name 
+=head2 Renaming japi into your project name 
 
-Rename all files which have *foo* included into your own new package name. You can do that with:
+Rename all files which have *japi* included into your own new package name. You can do that with:
 
     PROJECTNAME=yourproject
-    find . -name \*foo\* | 
-    while read foo; do git mv $foo ${foo/foo/$PROJECTNAME}; done
+    find . -name \*japi\* | 
+    while read japi; do git mv $japi ${japi/japi/$PROJECTNAME}; done
 
-Search all content and rename *foo* into your own new package name. You can do that with:
+Search all content and rename *japi* into your own new package name. You can do that with:
 
-    grep -R foo . | grep -v .git | 
-    cut -d: -f1 | uniq | xargs sed -i "s/foo/$PROJECTNAME/g"  
+    grep -R japi . | grep -v .git | 
+    cut -d: -f1 | uniq | xargs sed -i "s/japi/$PROJECTNAME/g"  
 
 =head2 Updating ./debian
 

@@ -1,9 +1,9 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: foo
-Source: http://template.buetow.org
+Upstream-Name: japi
+Source: http://japi.buetow.org
 
 Files: *
-Copyright: 2012 Paul Buetow <paul@buetow.org>
+Copyright: 2014 Paul Buetow <paul@buetow.org>
 License: GPL-3.0+
 
 Files: debian/*
