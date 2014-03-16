@@ -1,3 +1,9 @@
+japi (0.1.1) stable; urgency=low
+
+  * Fix the documentation
+
+ -- Paul Buetow <paul@buetow.org>  Sun, 16 Mar 2014 15:23:50 +0100
+
 japi (0.1.0) stable; urgency=low
 
   * Initial release of japi
