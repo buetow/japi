@@ -67,6 +67,7 @@ Almost all options have to be passed the Japi tool via command line. One excepti
 It can be created like this:
 
   bash -c 'read -s PASSWORD; tr -d "\n" <<< "$PASSWORD" | base64' | tee ~/.japipass
+  chmod 0600 ~/.japipass
 
 =head1 AUTHOR
 
