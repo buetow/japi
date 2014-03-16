@@ -1,6 +1,16 @@
 NAME
     japi - A Humble Jira API Tool
 
+    This is a small and simple command line tool to be used manually or via
+    cron to fetch the newest unresolved and unclosed tickets from a Jira
+    project.
+
+    It might be usefull to write the results every hour to a local file and
+    do a "cat ~/.issues" every time you open a new shell.
+
+    CAUTION: You may also need to install the "JIRA::REST" module from CPAN
+    manually. It's not included in standard Debian GNU/Linux Wheezy yet.
+
 SYNOPSIS
     Synopsis: japi [--debug] [--help] [--version] [--passfile]
     [--jira_apiversion <STRING>] [--jira_query <STRING>] [--jira_uribase

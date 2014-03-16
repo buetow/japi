@@ -26,6 +26,7 @@ package Japi::Japi {
     my $self = shift;
 
     # Prepare the option has for GetOptions, type '' is default type bool
+    # Also set some default values.
     my %opts = (
       # General options
       version  => { type => '',   value => 0 },

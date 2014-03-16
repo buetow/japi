@@ -131,6 +131,12 @@
 .nh
 .SH "NAME"
 japi \- A Humble Jira API Tool
+.PP
+This is a small and simple command line tool to be used manually or via cron to fetch the newest unresolved and unclosed tickets from a Jira project.
+.PP
+It might be usefull to write the results every hour to a local file and do a "cat ~/.issues" every time you open a new shell.
+.PP
+CAUTION: You may also need to install the "JIRA::REST" module from CPAN manually. It's not included in standard Debian GNU/Linux Wheezy yet.
 .SH "SYNOPSIS"
 .IX Header "SYNOPSIS"
 Synopsis: japi
