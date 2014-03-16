@@ -1,3 +1,52 @@
-#!/bin/bash
+#!/usr/bin/env perl
 
-echo "Hello World, I am a fake project"
+use strict;
+use warnings;
+
+use v5.14;
+
+use Data::Dumper;
+
+use JIRA::REST; # From CPAN
+
+my $jira_uri = 'https://po-jira.1and1.com/rest/api/2';
+my $jira_user = 'pbuetow';
+my $jira_pass = $ENV{JIRA_PASS};
+my $query = "search?jql=project=MT and status not in (Resolved,Closed)";
+my $web_base = 'https://po-jira.1and1.com/browse/';
+
+say "==> Querying $query";
+my $jira = JIRA::REST->new($jira_uri, $jira_user, $jira_pass);
+
+my $result = $jira->GET($query);
+my $issues = $result->{issues};
+
+sub created {
+  my $created = shift;
+
+  # Parse 2014-02-19T11:56:47.000+0100
+  my ($y, $m, $d, $t) = $created =~ /^(\d{4})-(\d\d)-(\d\d)T(\d\d:\d\d:\d\d)/;
+
+  return "$d.$m.$y $t";
+}
+
+map {
+  my $f = $_->{fields};
+  my $r = $f->{reporter};
+
+  say "Summary: $f->{summary}";
+  say 'Created: ' . created($f->{created})." Reporter: $r->{displayName} ($r->{name})";
+  say "URL: $web_base$_->{key}";
+  say '-' x 80;
+
+} sort {
+  $a->{fields}{created} cmp $b->{fields}{created};
+
+} grep {
+  not defined $_->{fields}{assignee};
+
+} @$issues;
+
+say '==> Found ' . scalar(@$issues) . ' issues';
+
+#say Dumper $issues->[0]; 
