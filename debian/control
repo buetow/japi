@@ -10,6 +10,6 @@ Vcs-Browser: http://web.buetow.org/git/?p=japi.git;a=summary
 
 Package: japi
 Architecture: all
-Depends:
+Depends: libmoo-perl, libconfigreader-simple-perl
 Description: Command line tool for Jira
  This is a small tool to list open issues in JIRA via the REST API

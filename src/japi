@@ -1,13 +1,62 @@
 #!/usr/bin/env perl
 
+package Fapi;
+
+use namespace::clean;
+use v5.14;
 use strict;
 use warnings;
+use autodie;
+
+# From Debian Repos
+use Moo;
+
+# From CPAN
+use JIRA::REST;
+
+# Object attributes
+has config => ( is => 'ro' );
+
+sub created_str {
+  my $created = shift;
+
+  # Parse 2014-02-19T11:56:47.000+0100
+  my ($y, $m, $d, $t) = $created =~
+    /^(\d{4})-(\d\d)-(\d\d)T(\d\d:\d\d:\d\d)/;
+
+  return "$d.$m.$y $t";
+}
+
+sub get_open_issues {
+  my $self = shift;
+
+  $self->config->directives();
+}
+
+1;
+
+package main;
 
 use v5.14;
+use strict;
+use warnings;
+use autodie;
 
 use Data::Dumper;
+use ConfigReader::Simple;
 
-use JIRA::REST; # From CPAN
+my $config_file = './japi.conf';
+
+my $config = ConfigReader::Simple->new($config_file,
+  ['uri', 'user', 'pass64',  'query',  'webase']);
+
+say Dumper $config;
+
+my $japi = Fapi->new(config => $config);
+
+say Dumper $japi->get_open_issues();
+
+__END__
 
 my $jira_uri = 'https://po-jira.1and1.com/rest/api/2';
 my $jira_user = 'pbuetow';
@@ -21,23 +70,15 @@ my $jira = JIRA::REST->new($jira_uri, $jira_user, $jira_pass);
 my $result = $jira->GET($query);
 my $issues = $result->{issues};
 
-sub created {
-  my $created = shift;
-
-  # Parse 2014-02-19T11:56:47.000+0100
-  my ($y, $m, $d, $t) = $created =~ /^(\d{4})-(\d\d)-(\d\d)T(\d\d:\d\d:\d\d)/;
-
-  return "$d.$m.$y $t";
-}
 
 map {
   my $f = $_->{fields};
   my $r = $f->{reporter};
 
-  say "Summary: $f->{summary}";
-  say 'Created: ' . created($f->{created})." Reporter: $r->{displayName} ($r->{name})";
-  say "URL: $web_base$_->{key}";
   say '-' x 80;
+  say 'Created: ' . created($f->{created})." Reporter: $r->{displayName} ($r->{name})";
+  say "Summary: $f->{summary}";
+  say "URL: $web_base$_->{key}";
 
 } sort {
   $a->{fields}{created} cmp $b->{fields}{created};
@@ -47,6 +88,7 @@ map {
 
 } @$issues;
 
+say '';
 say '==> Found ' . scalar(@$issues) . ' issues';
 
 #say Dumper $issues->[0]; 
