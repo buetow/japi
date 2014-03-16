@@ -39,7 +39,7 @@ SYNOPSIS
     --jira_query STRING
         Specifies the Jira search string (e.q. a JQL string). The default
         value is "search?jql=project=MT and status not in
-        (Resolved,Closed)'".
+        (Resolved,Closed)".
 
     --jira_uribase STRING
         Specifies the Jira URI base. The default value is
