@@ -7,7 +7,6 @@ all: version documentation build
 build:
 	cp -p ./src/$(NAME) bin/$(NAME)
 	sed -i "s/VERSION_DEVEL/$$(cat .version)/" bin/$(NAME)
-	echo "echo This is version $$(cat .version)" >> bin/$(NAME)
 	
 # 'install' installes a fake-root, which will be used to build the Debian package
 # $DESTDIR is actually set by the Debian tools.
