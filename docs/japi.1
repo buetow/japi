@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "JAPI 1"
-.TH JAPI 1 "2014-03-16" "japi 0.1.2" "User Commands"
+.TH JAPI 1 "2014-03-16" "japi 0.2.0" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -143,6 +143,7 @@ Synopsis: japi
   [\-\-debug]
   [\-\-help]
   [\-\-version]
+  [\-\-nocolor]
   [\-\-passfile]
   [\-\-jira_apiversion \s-1STRING\s0]
   [\-\-jira_query \s-1STRING\s0]
@@ -159,6 +160,9 @@ Prints out the help.
 .IP "\-\-version" 4
 .IX Item "--version"
 Prints out the version.
+.IP "\-\-nocolor" 4
+.IX Item "--nocolor"
+By default the output uses colored text output. This switch disables it.
 .IP "\-\-passfile \s-1STRING\s0" 4
 .IX Item "--passfile STRING"
 Specifies the path to an optional file which includes the Jira \s-1API\s0 password but Base64 encoded. The default value is \f(CW\*(C`~/.japipass\*(C'\fR.
@@ -182,8 +186,9 @@ Almost all options have to be passed the Japi tool via command line. One excepti
 .PP
 It can be created like this:
 .PP
-.Vb 1
+.Vb 2
 \&  bash \-c \*(Aqread \-s PASSWORD; tr \-d "\en" <<< "$PASSWORD" | base64\*(Aq | tee ~/.japipass
+\&  chmod 0600 ~/.japipass
 .Ve
 .SH "AUTHOR"
 .IX Header "AUTHOR"

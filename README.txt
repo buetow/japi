@@ -12,7 +12,7 @@ NAME
     manually. It's not included in standard Debian GNU/Linux Wheezy yet.
 
 SYNOPSIS
-    Synopsis: japi [--debug] [--help] [--version] [--passfile]
+    Synopsis: japi [--debug] [--help] [--version] [--nocolor] [--passfile]
     [--jira_apiversion STRING] [--jira_query STRING] [--jira_uribase STRING]
     [--jira_user STRING]
 
@@ -25,6 +25,10 @@ SYNOPSIS
 
     --version
         Prints out the version.
+
+    --nocolor
+        By default the output uses colored text output. This switch disables
+        it.
 
     --passfile STRING
         Specifies the path to an optional file which includes the Jira API
@@ -57,6 +61,7 @@ CONFIG
     It can be created like this:
 
       bash -c 'read -s PASSWORD; tr -d "\n" <<< "$PASSWORD" | base64' | tee ~/.japipass
+      chmod 0600 ~/.japipass
 
 AUTHOR
     Paul C. Buetow - <paul@buetow.org>

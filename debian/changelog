@@ -1,3 +1,9 @@
+japi (0.2.0) stable; urgency=low
+
+  * Add support for terminal colors.
+
+ -- Paul Buetow <paul@buetow.org>  Sun, 16 Mar 2014 17:30:09 +0100
+
 japi (0.1.2) stable; urgency=low
 
   * Fix the default value of the jira_query in the manual page.
