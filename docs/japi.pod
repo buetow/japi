@@ -14,6 +14,7 @@ Synopsis: japi
   [--debug]
   [--help]
   [--version]
+  [--nocolor]
   [--passfile]
   [--jira_apiversion STRING]
   [--jira_query STRING]
@@ -35,6 +36,10 @@ Prints out the help.
 =item --version
 
 Prints out the version.
+
+=item --nocolor
+
+By default the output uses colored text output. This switch disables it.
 
 =item --passfile STRING
 

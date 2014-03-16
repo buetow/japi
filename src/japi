@@ -30,6 +30,7 @@ package Japi::Japi {
     my %opts = (
       # General options
       version  => { type => '',   value => 0 },
+      nocolor  => { type => '',   value => 0 },
       #verbose  => { type => '',   value => 0 },
       debug    => { type => '',   value => 0 },
       help     => { type => '',   value => 0 },
@@ -126,6 +127,7 @@ package Japi::Jira {
   use Moo;
   use JIRA::REST; # From CPAN (install via CPAN shell e.g.)
   use Data::Dumper;
+  use Term::ANSIColor;
 
   has user       => ( is => 'ro' );
   has pass       => ( is => 'ro' );
@@ -133,12 +135,15 @@ package Japi::Jira {
   has apiversion => ( is => 'ro' );
   has uribase    => ( is => 'ro' );
   has issues     => ( is => 'rw' );
+  has nocolor   => ( is => 'ro' );
 
   sub run_query {
     my $self = shift;
     my $uri = join '/', $self->uribase, $self->apiversion;
 
+    print color 'blue' unless $self->nocolor;
     say "==> Querying $uri/".$self->query;
+    print color 'reset' unless $self->nocolor;
 
     my $jira = JIRA::REST->new($uri, $self->user, $self->pass);
     my $result = $jira->GET($self->query);
@@ -154,10 +159,21 @@ package Japi::Jira {
       my $f = $_->{fields};
       my $r = $f->{reporter};
 
+      print color 'blue' unless $self->nocolor;
       say '-' x 80;
+      print color 'reset' unless $self->nocolor;
+
+      print color 'green' unless $self->nocolor;
       say 'Created: ' . $self->created_str($f->{created})." Reporter: $r->{displayName} ($r->{name})";
+      print color 'reset' unless $self->nocolor;
+
+      print color 'bold cyan' unless $self->nocolor;
       say "Summary: $f->{summary}";
+      print color 'reset' unless $self->nocolor;
+
+      print color 'green' unless $self->nocolor;
       say "URL: $webase$_->{key}";
+      print color 'reset' unless $self->nocolor;
 
     } sort {
       $a->{fields}{created} cmp $b->{fields}{created};
@@ -167,8 +183,9 @@ package Japi::Jira {
 
     } @{$self->issues};
 
-    say '';
-    say '==> Found ' . scalar(@{$self->issues}) . ' issues';
+    print color 'bold green' unless $self->nocolor;
+    say '==> Listed ' . scalar(@{$self->issues}) . ' issues';
+    print color 'reset' unless $self->nocolor;
   }
 
   # Return date in human readable format
@@ -191,6 +208,7 @@ my $jira = Japi::Jira->new(
   query => $japi->opt('jira_query'),
   uribase => $japi->opt('jira_uribase'),
   apiversion => $japi->opt('jira_apiversion'),
+  nocolor => $japi->opt('nocolor'),
 );
 
 $jira->run_query();
