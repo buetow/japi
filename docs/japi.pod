@@ -15,10 +15,10 @@ Synopsis: japi
   [--help]
   [--version]
   [--passfile]
-  [--jira_apiversion <STRING>]
-  [--jira_query <STRING>]
-  [--jira_uribase <STRING>]
-  [--jira_user <STRING>]
+  [--jira_apiversion STRING]
+  [--jira_query STRING]
+  [--jira_uribase STRING]
+  [--jira_user STRING]
 
 =head2 Options:
 
@@ -36,25 +36,25 @@ Prints out the help.
 
 Prints out the version.
 
-=item --passfile <STRING>
+=item --passfile STRING
 
 Specifies the path to an optional file which includes the Jira API password but Base64 encoded. The default value is C<~/.japipass>.
 
 If the file is not present, Japi will prompt for the password. 
 
-=item --jira_apiversion <STRING>
+=item --jira_apiversion STRING
 
 Specifies the Jira API version to use. The default value is C<rest/api/2>.
 
-=item --jira_query <STRING>
+=item --jira_query STRING
 
 Specifies the Jira search string (e.q. a JQL string). The default value is C<search?jql=project=MT and status not in (Resolved,Closed)'>.
 
-=item --jira_uribase <STRING>
+=item --jira_uribase STRING
 
 Specifies the Jira URI base. The default value is C<https://your-jira.example.com>. This has to be changed.
 
-=item --jira_user <STRING>
+=item --jira_user STRING
 
 Specifies the Jira user. The default value is your current Linux/UNIX user.
 
