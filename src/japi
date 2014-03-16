@@ -154,24 +154,26 @@ package Japi::Jira {
   sub say_issues {
     my $self = shift;
     my $webase = join '/', $self->uribase, 'browse/';
+    my $counter = 0;
 
     map {
       my $f = $_->{fields};
       my $r = $f->{reporter};
 
-      print color 'blue' unless $self->nocolor;
-      say '-' x 80;
-      print color 'reset' unless $self->nocolor;
+      say '';
 
       print color 'green' unless $self->nocolor;
-      say 'Created: ' . $self->created_str($f->{created})." Reporter: $r->{displayName} ($r->{name})";
+      printf "(%02d) Created: %s; Reporter: %s\n",
+        ++$counter,
+       $self->created_str($f->{created}),
+       "$r->{displayName} ($r->{name})";
       print color 'reset' unless $self->nocolor;
 
       print color 'bold cyan' unless $self->nocolor;
       say "Summary: $f->{summary}";
       print color 'reset' unless $self->nocolor;
 
-      print color 'green' unless $self->nocolor;
+      print color 'blue' unless $self->nocolor;
       say "URL: $webase$_->{key}";
       print color 'reset' unless $self->nocolor;
 
@@ -183,8 +185,9 @@ package Japi::Jira {
 
     } @{$self->issues};
 
+    say '';
     print color 'bold green' unless $self->nocolor;
-    say '==> Listed ' . scalar(@{$self->issues}) . ' issues';
+    say "==> Listed $counter issues";
     print color 'reset' unless $self->nocolor;
   }
 
