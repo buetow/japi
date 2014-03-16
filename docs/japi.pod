@@ -48,7 +48,7 @@ Specifies the Jira API version to use. The default value is C<rest/api/2>.
 
 =item --jira_query STRING
 
-Specifies the Jira search string (e.q. a JQL string). The default value is C<search?jql=project=MT and status not in (Resolved,Closed)'>.
+Specifies the Jira search string (e.q. a JQL string). The default value is C<search?jql=project=MT and status not in (Resolved,Closed)>.
 
 =item --jira_uribase STRING
 
