@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "JAPI 1"
-.TH JAPI 1 "2014-03-16" "japi 0.0.0" "User Commands"
+.TH JAPI 1 "2014-03-16" "japi 0.1.2" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -144,10 +144,10 @@ Synopsis: japi
   [\-\-help]
   [\-\-version]
   [\-\-passfile]
-  [\-\-jira_apiversion <\s-1STRING\s0>]
-  [\-\-jira_query <\s-1STRING\s0>]
-  [\-\-jira_uribase <\s-1STRING\s0>]
-  [\-\-jira_user <\s-1STRING\s0>]
+  [\-\-jira_apiversion \s-1STRING\s0]
+  [\-\-jira_query \s-1STRING\s0]
+  [\-\-jira_uribase \s-1STRING\s0]
+  [\-\-jira_user \s-1STRING\s0]
 .SS "Options:"
 .IX Subsection "Options:"
 .IP "\-\-debug" 4
@@ -159,22 +159,22 @@ Prints out the help.
 .IP "\-\-version" 4
 .IX Item "--version"
 Prints out the version.
-.IP "\-\-passfile <\s-1STRING\s0>" 4
-.IX Item "--passfile <STRING>"
+.IP "\-\-passfile \s-1STRING\s0" 4
+.IX Item "--passfile STRING"
 Specifies the path to an optional file which includes the Jira \s-1API\s0 password but Base64 encoded. The default value is \f(CW\*(C`~/.japipass\*(C'\fR.
 .Sp
 If the file is not present, Japi will prompt for the password.
-.IP "\-\-jira_apiversion <\s-1STRING\s0>" 4
-.IX Item "--jira_apiversion <STRING>"
+.IP "\-\-jira_apiversion \s-1STRING\s0" 4
+.IX Item "--jira_apiversion STRING"
 Specifies the Jira \s-1API\s0 version to use. The default value is \f(CW\*(C`rest/api/2\*(C'\fR.
-.IP "\-\-jira_query <\s-1STRING\s0>" 4
-.IX Item "--jira_query <STRING>"
-Specifies the Jira search string (e.q. a \s-1JQL\s0 string). The default value is \f(CW\*(C`search?jql=project=MT and status not in (Resolved,Closed)\*(Aq\*(C'\fR.
-.IP "\-\-jira_uribase <\s-1STRING\s0>" 4
-.IX Item "--jira_uribase <STRING>"
+.IP "\-\-jira_query \s-1STRING\s0" 4
+.IX Item "--jira_query STRING"
+Specifies the Jira search string (e.q. a \s-1JQL\s0 string). The default value is \f(CW\*(C`search?jql=project=MT and status not in (Resolved,Closed)\*(C'\fR.
+.IP "\-\-jira_uribase \s-1STRING\s0" 4
+.IX Item "--jira_uribase STRING"
 Specifies the Jira \s-1URI\s0 base. The default value is \f(CW\*(C`https://your\-jira.example.com\*(C'\fR. This has to be changed.
-.IP "\-\-jira_user <\s-1STRING\s0>" 4
-.IX Item "--jira_user <STRING>"
+.IP "\-\-jira_user \s-1STRING\s0" 4
+.IX Item "--jira_user STRING"
 Specifies the Jira user. The default value is your current Linux/UNIX user.
 .SH "CONFIG"
 .IX Header "CONFIG"
