@@ -1,3 +1,9 @@
+japi (0.3.0) stable; urgency=low
+
+  * Some enhancements in the txt output.
+
+ -- Paul Buetow <paul@buetow.org>  Sun, 16 Mar 2014 17:57:03 +0100
+
 japi (0.2.0) stable; urgency=low
 
   * Add support for terminal colors.
