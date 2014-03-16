@@ -1,5 +1,5 @@
-japi (0.0.0) stable; urgency=low
+japi (0.1.0) stable; urgency=low
 
-  * Initial version of the template
+  * Initial release of japi
 
- -- Paul Buetow <paul@buetow.org>  Fri, 04 Jan 2013 07:53:32 +0100
+ -- Paul Buetow <paul@buetow.org>  Sun, 16 Mar 2014 14:51:05 +0100
