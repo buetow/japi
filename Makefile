@@ -39,6 +39,9 @@ documentation:
 deb: all
 	dpkg-buildpackage
 
+dput:
+	dput -u wheezy-buetowdotorg ../$(NAME)_$$(cat ./.version)_amd64.changes
+
 dch: 
 	dch -i
 
