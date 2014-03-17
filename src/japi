@@ -141,7 +141,7 @@ package Japi::Jira {
     my $self = shift;
     my $uri = join '/', $self->uribase, $self->apiversion;
 
-    print color 'blue' unless $self->nocolor;
+    print color 'green' unless $self->nocolor;
     say "==> Querying $uri/".$self->query;
     print color 'reset' unless $self->nocolor;
 
@@ -160,7 +160,7 @@ package Japi::Jira {
       my $f = $_->{fields};
       my $r = $f->{reporter};
 
-      print color 'green' unless $self->nocolor;
+      print color 'blue' unless $self->nocolor;
       printf "(%02d) Created: %s; Reporter: %s\n",
         ++$counter,
        $self->created_str($f->{created}),
@@ -171,7 +171,7 @@ package Japi::Jira {
       say "Summary: $f->{summary}";
       print color 'reset' unless $self->nocolor;
 
-      print color 'blue' unless $self->nocolor;
+      print color 'red' unless $self->nocolor;
       say "URL: $webase$_->{key}";
       print color 'reset' unless $self->nocolor;
 
