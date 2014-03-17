@@ -141,7 +141,7 @@ package Japi::Jira {
     my $self = shift;
     my $uri = join '/', $self->uribase, $self->apiversion;
 
-    print color 'green' unless $self->nocolor;
+    print color 'bold green' unless $self->nocolor;
     say "==> Querying $uri/".$self->query;
     print color 'reset' unless $self->nocolor;
 
@@ -171,9 +171,9 @@ package Japi::Jira {
       say "Summary: $f->{summary}";
       print color 'reset' unless $self->nocolor;
 
-      print color 'red' unless $self->nocolor;
+      #print color 'blue' unless $self->nocolor;
       say "URL: $webase$_->{key}";
-      print color 'reset' unless $self->nocolor;
+      #print color 'reset' unless $self->nocolor;
 
     } sort {
       $a->{fields}{created} cmp $b->{fields}{created};
