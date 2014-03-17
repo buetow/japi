@@ -1,3 +1,9 @@
+japi (0.3.4) stable; urgency=low
+
+  * Use different colors
+
+ -- Paul Buetow <paul@buetow.org>  Mon, 17 Mar 2014 08:51:33 +0100
+
 japi (0.3.2) stable; urgency=low
 
   * Use different colors
