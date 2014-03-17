@@ -1,3 +1,9 @@
+japi (0.3.1) stable; urgency=low
+
+  * More compact text output (remove empty line between each issue)
+
+ -- Paul Buetow <paul@buetow.org>  Mon, 17 Mar 2014 08:38:49 +0100
+
 japi (0.3.0) stable; urgency=low
 
   * Some enhancements in the txt output.
