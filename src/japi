@@ -160,8 +160,6 @@ package Japi::Jira {
       my $f = $_->{fields};
       my $r = $f->{reporter};
 
-      say '';
-
       print color 'green' unless $self->nocolor;
       printf "(%02d) Created: %s; Reporter: %s\n",
         ++$counter,
