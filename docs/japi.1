@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "JAPI 1"
-.TH JAPI 1 "2014-03-16" "japi 0.3.4" "User Commands"
+.TH JAPI 1 "2014-03-18" "japi 0.4.0" "User Commands"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -145,6 +145,7 @@ Synopsis: japi
   [\-\-version]
   [\-\-nocolor]
   [\-\-passfile]
+  [\-\-unassigned]
   [\-\-jira_apiversion \s-1STRING\s0]
   [\-\-jira_query \s-1STRING\s0]
   [\-\-jira_uribase \s-1STRING\s0]
@@ -168,6 +169,9 @@ By default the output uses colored text output. This switch disables it.
 Specifies the path to an optional file which includes the Jira \s-1API\s0 password but Base64 encoded. The default value is \f(CW\*(C`~/.japipass\*(C'\fR.
 .Sp
 If the file is not present, Japi will prompt for the password.
+.IP "\-\-unassigned" 4
+.IX Item "--unassigned"
+By default the output lists assigned and unassigned issues. Use this switch to only list unassigned issues.
 .IP "\-\-jira_apiversion \s-1STRING\s0" 4
 .IX Item "--jira_apiversion STRING"
 Specifies the Jira \s-1API\s0 version to use. The default value is \f(CW\*(C`rest/api/2\*(C'\fR.

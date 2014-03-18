@@ -13,8 +13,8 @@ NAME
 
 SYNOPSIS
     Synopsis: japi [--debug] [--help] [--version] [--nocolor] [--passfile]
-    [--jira_apiversion STRING] [--jira_query STRING] [--jira_uribase STRING]
-    [--jira_user STRING]
+    [--unassigned] [--jira_apiversion STRING] [--jira_query STRING]
+    [--jira_uribase STRING] [--jira_user STRING]
 
   Options:
     --debug
@@ -35,6 +35,10 @@ SYNOPSIS
         password but Base64 encoded. The default value is "~/.japipass".
 
         If the file is not present, Japi will prompt for the password.
+
+    --unassigned
+        By default the output lists assigned and unassigned issues. Use this
+        switch to only list unassigned issues.
 
     --jira_apiversion STRING
         Specifies the Jira API version to use. The default value is
