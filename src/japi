@@ -29,12 +29,13 @@ package Japi::Japi {
     # Also set some default values.
     my %opts = (
       # General options
-      version  => { type => '',   value => 0 },
-      nocolor  => { type => '',   value => 0 },
-      #verbose  => { type => '',   value => 0 },
-      debug    => { type => '',   value => 0 },
-      help     => { type => '',   value => 0 },
-      passfile => { type => '=s', value => "$ENV{HOME}/.japipass" },
+      version    => { type => '',   value => 0 },
+      nocolor    => { type => '',   value => 0 },
+      #verbose    => { type => '',   value => 0 },
+      debug      => { type => '',   value => 0 },
+      help       => { type => '',   value => 0 },
+      passfile   => { type => '=s', value => "$ENV{HOME}/.japipass" },
+      unassigned => { type => '',   value => 0 },
 
       # Jira specific options
       jira_uribase    => { type => '=s', value => 'https://your-jira.example.com' },
@@ -135,7 +136,8 @@ package Japi::Jira {
   has apiversion => ( is => 'ro' );
   has uribase    => ( is => 'ro' );
   has issues     => ( is => 'rw' );
-  has nocolor   => ( is => 'ro' );
+  has nocolor    => ( is => 'ro' );
+  has unassigned => ( is => 'ro' );
 
   sub run_query {
     my $self = shift;
@@ -179,11 +181,14 @@ package Japi::Jira {
       $a->{fields}{created} cmp $b->{fields}{created};
 
     } grep {
-      not defined $_->{fields}{assignee};
+      if ($self->unassigned) {
+        not defined $_->{fields}{assignee};
+      }  else {
+        1;
+      }
 
     } @{$self->issues};
 
-    say '';
     print color 'bold green' unless $self->nocolor;
     say "==> Listed $counter issues";
     print color 'reset' unless $self->nocolor;
@@ -210,6 +215,7 @@ my $jira = Japi::Jira->new(
   uribase => $japi->opt('jira_uribase'),
   apiversion => $japi->opt('jira_apiversion'),
   nocolor => $japi->opt('nocolor'),
+  unassigned => $japi->opt('unassigned'),
 );
 
 $jira->run_query();

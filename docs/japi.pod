@@ -16,6 +16,7 @@ Synopsis: japi
   [--version]
   [--nocolor]
   [--passfile]
+  [--unassigned]
   [--jira_apiversion STRING]
   [--jira_query STRING]
   [--jira_uribase STRING]
@@ -46,6 +47,10 @@ By default the output uses colored text output. This switch disables it.
 Specifies the path to an optional file which includes the Jira API password but Base64 encoded. The default value is C<~/.japipass>.
 
 If the file is not present, Japi will prompt for the password. 
+
+=item --unassigned
+
+By default the output lists assigned and unassigned issues. Use this switch to only list unassigned issues. 
 
 =item --jira_apiversion STRING
 
