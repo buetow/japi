@@ -1,3 +1,9 @@
+japi (0.4.2) stable; urgency=low
+
+  * Merge
+
+ -- Paul Buetow <paul@buetow.org>  Mon, 16 Jun 2014 09:10:18 +0200
+
 japi (0.4.1) stable; urgency=low
 
   * Add Debian GNU/Linux Jessie package
