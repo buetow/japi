@@ -5,8 +5,8 @@ Maintainer: Paul Buetow <paul@buetow.org>
 Build-Depends: 
 Standards-Version: 3.9.2
 Homepage: https://japi.buetow.org
-Vcs-Git: git://git.buetow.org/japi
-Vcs-Browser: http://web.buetow.org/git/?p=japi.git;a=summary
+Vcs-Git: https://github.com/rantanplan/japi.git
+Vcs-Browser: https://github.com/rantanplan/japi
 
 Package: japi
 Architecture: all
